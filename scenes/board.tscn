@@ -1,0 +1,134 @@
+[gd_scene load_steps=11 format=3 uid="uid://beyy2ckh7wm37"]
+
+[ext_resource type="Texture2D" uid="uid://hlxghl8mdnvb" path="res://assets/Bg.png" id="1_bw3vb"]
+[ext_resource type="Script" uid="uid://bxg3inetvj4uq" path="res://scripts/board.gd" id="2_nglv8"]
+[ext_resource type="FontFile" uid="uid://bsklm355a5rgr" path="res://assets/pixel_font.ttf" id="2_tx6nw"]
+[ext_resource type="Script" uid="uid://43u2qqlaejtv" path="res://scripts/player.gd" id="3_fv4ni"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tx6nw"]
+size = Vector2(20, 120)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nglv8"]
+size = Vector2(10, 10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fv4ni"]
+size = Vector2(1152, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dxjtj"]
+size = Vector2(1152, 56)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dun80"]
+size = Vector2(64, 648)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c3r7o"]
+size = Vector2(64, 648)
+
+[node name="Board" type="Sprite2D"]
+texture_filter = 1
+texture = ExtResource("1_bw3vb")
+centered = false
+script = ExtResource("2_nglv8")
+
+[node name="Player" type="StaticBody2D" parent="."]
+position = Vector2(50, 324)
+script = ExtResource("3_fv4ni")
+
+[node name="ColorRect" type="ColorRect" parent="Player"]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -60.0
+offset_right = 20.0
+offset_bottom = 60.0
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+position = Vector2(10, 0)
+shape = SubResource("RectangleShape2D_tx6nw")
+
+[node name="CPU" type="StaticBody2D" parent="."]
+position = Vector2(1082, 324)
+
+[node name="ColorRect" type="ColorRect" parent="CPU"]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -60.0
+offset_right = 20.0
+offset_bottom = 60.0
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CPU"]
+position = Vector2(10, 0)
+shape = SubResource("RectangleShape2D_tx6nw")
+
+[node name="Ball" type="CharacterBody2D" parent="."]
+position = Vector2(576, 324)
+collision_mask = 3
+
+[node name="ColorRect" type="ColorRect" parent="Ball"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -5.0
+offset_top = -5.0
+offset_right = 5.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ball"]
+shape = SubResource("RectangleShape2D_nglv8")
+
+[node name="Borders" type="StaticBody2D" parent="."]
+collision_layer = 2
+
+[node name="TopBorder" type="CollisionShape2D" parent="Borders"]
+position = Vector2(576, -32)
+shape = SubResource("RectangleShape2D_fv4ni")
+
+[node name="BottomBorder" type="CollisionShape2D" parent="Borders"]
+position = Vector2(576, 676)
+shape = SubResource("RectangleShape2D_dxjtj")
+
+[node name="Goals" type="StaticBody2D" parent="."]
+
+[node name="GoalLeft" type="CollisionShape2D" parent="Goals"]
+position = Vector2(-32, 324)
+shape = SubResource("RectangleShape2D_dun80")
+
+[node name="GoalRight" type="CollisionShape2D" parent="Goals"]
+position = Vector2(1184, 324)
+shape = SubResource("RectangleShape2D_c3r7o")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="PlayerScore" type="Label" parent="HUD"]
+offset_left = 456.0
+offset_top = 5.0
+offset_right = 506.0
+offset_bottom = 55.0
+theme_override_fonts/font = ExtResource("2_tx6nw")
+theme_override_font_sizes/font_size = 50
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CPUScore" type="Label" parent="HUD"]
+offset_left = 648.0
+offset_top = 5.0
+offset_right = 698.0
+offset_bottom = 55.0
+theme_override_fonts/font = ExtResource("2_tx6nw")
+theme_override_font_sizes/font_size = 50
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BallTimer" type="Timer" parent="."]
+one_shot = true
+autostart = true
